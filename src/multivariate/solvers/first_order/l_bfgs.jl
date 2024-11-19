@@ -208,7 +208,11 @@ function update_state!(d, state::LBFGSState, method::LBFGS)
     state.x .= state.x .+ state.dx
     retract!(method.manifold, state.x)
 
-    lssuccess == false # break on linesearch error
+    if !lssuccess # break on linesearch error
+        @warn "Linesearch failed in L-BFGS"
+    end
+
+    return false
 end
 
 
