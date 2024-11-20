@@ -58,6 +58,7 @@ function perform_linesearch!(state, method, d)
         state.alpha, ϕalpha =
             method.linesearch!(d, state.x, state.s, state.alpha,
                                state.x_ls, phi_0, dphi_0)
+        state.alpha = clamp(state.alpha, 0.001, 5.0)
         return true # lssuccess = true
     catch ex
         if isa(ex, LineSearches.LineSearchException)
